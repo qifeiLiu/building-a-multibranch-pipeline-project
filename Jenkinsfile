@@ -1,9 +1,13 @@
 pipeline {
     agent {
+        node{
+            label "master-with-docker"
             docker {
                 image 'node:6-alpine'
                 args '-p 3000:3000 -p 5000:5000'
             }
+        }
+
     }
     environment {
         CI = 'true'
@@ -29,9 +33,9 @@ pipeline {
                 sh './jenkins/scripts/kill.sh'
             }
         }
-        stage('Deploy for production') {
+        stage('Deploy for product') {
             when {
-                branch 'production'
+                branch 'product'
             }
             steps {
                 sh './jenkins/scripts/deploy-for-production.sh'
